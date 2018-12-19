@@ -1,0 +1,108 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Home_controller extends CI_Controller {
+
+	/**
+	 *    Index Page for this controller.
+	 *
+	 * Maps to the following URL
+	 * 		http://example.com/index.php/welcome
+	 *	- or -
+	 * 		http://example.com/index.php/welcome/index
+	 *	- or -
+	 * Since this controller is set as the default controller in
+	 * config/routes.php, it's displayed at http://example.com/
+	 *
+	 * So any other public methods not prefixed with an underscore will
+	 * map to /index.php/welcome/<method_name>
+	 * @see https://codeigniter.com/user_guide/general/urls.html
+	 */
+
+	public function __construct(){
+        parent::__construct();
+    
+        $this->load->model(array('Home_model','Teacherlist_model','Teacherabout_model'));
+        $this->load->database();
+       
+    }
+
+	public function index(){
+		$data['courses'] = $this->Home_model->get_course_details();
+		$data['map'] = $this->Home_model->home_map_data();
+		$this->load->view('include/header',$data);
+		$this->load->view('home_view',$data);
+		$this->load->view('include/footer',$data);
+	}
+
+	//Get class for teaching subject
+	public function get_classes_by_course(){
+		$courses_id = $this->input->get('courses_id');
+		$data = $this->Home_model->get_class_details($courses_id);
+		//print_r($data);
+		foreach ($data as $key => $value) {
+			echo '<option value="'.$value["id"].'#'.$value["name"].'">'.$value["name"].'</option>';
+		}
+	}
+
+	//Get subjects for teaching subject.////////
+	public function get_subjects_by_classes(){
+		$class_id = $this->input->get('class_id');
+		$arr = explode('#', $class_id);
+		$c_id = $arr['0'];
+		$data = $this->Home_model->get_subject_details($c_id);
+		//print_r($data);
+		foreach ($data as $key => $value) {
+			echo '<option value="'.$value["id"].'#'.$value["name"].'">'.$value["name"].'</option>';
+		}
+	}
+	
+	public function search_teacher(){
+		$class_id = $this->input->get('class_id');
+		$subject_id = $this->input->get('subject_id');
+		$user_role = $this->input->get('user_role');
+		//$address = $this->input->get('address');
+	 
+		//$temp_arra['search'] =array('name'=>'8','class_id'=>'185#sports','subject_id'=>'1399#Cycling','address'=>'Janakpuri, New Delhi, Delhi, India');
+		$url="https://maps.googleapis.com/maps/api/geocode/json?address=Delhi,India&key=AIzaSyDkmRzgPT_YinELO77cj-Sju5IsqUrfrn0";
+		$data = file_get_contents($url);
+		$data = mb_substr($data, strpos($data, '{'));
+		$data = mb_substr($data, 0, -1);
+		$result = json_decode($data, true);
+	    $temp_arra= $result['results'][0]['geometry']['location'];
+		//echo $temp_arra['lat']; 
+		//echo $temp_arra['lng'];
+
+		$t_list = $this->Teacherlist_model->get_teacher_details($class_id,$subject_id,$user_role);
+		//print_r($t_list);die;
+		$data = array(
+			'teacher_list' => $t_list
+		);
+		//print_r($data);die;
+		$this->load->view('include/header_teacherview',$data);
+		$this->load->view('teacherlist_view',$data);
+		$this->load->view('include/footer',$data);
+		
+		
+	}
+	// public function get_map_cordinate(){
+		// $data = $this->Home_model->home_map_data();
+		// print_r($data);
+	// }
+
+
+	public function teacher_detail(){
+		//$id = $this->input->get('teacher_id');
+		$info = $this->Teacherabout_model->get_teacher_about();
+		$data = array(
+			'info' => $info
+		);
+
+	 	$this->load->view('include/header_teacherdetail',$data);
+	 	$this->load->view('teacherdetail',$data);
+		$this->load->view('include/footer',$data);
+	}
+	
+
+
+}

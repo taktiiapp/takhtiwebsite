@@ -1,0 +1,42 @@
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+	class Home_model extends CI_Model{
+
+  	public function __construct(){
+  		parent::__construct();
+   		//$this->load->model(array('Home_model'));
+
+    }
+
+    public function get_course_details(){
+
+      $query = $this->db->get('app_courses');
+      $result = $query->result_array();
+      return $result;   
+    }
+
+
+    public function get_class_details($courses_id){
+      // $query = $this->db->get('app_courses');
+      // $this->db->where('courses_id', $courses_id);
+      // $result = $query->result_array();
+      // return $result;   
+	    $this->db->select('*');
+	    $this->db->where('courses_id', $courses_id);
+      $query = $this->db->get('app_class');
+      $result = $query->result_array();
+      return $result;     
+    }
+
+        
+    public function get_subject_details($class_id){
+        $this->db->select('*');
+        $this->db->where('class_id', $class_id);
+        $query = $this->db->get('app_subjects');
+        $result = $query->result_array();
+       	return $result;   
+           
+    }
+
+}
+	   

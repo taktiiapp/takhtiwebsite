@@ -1,0 +1,20 @@
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+	class Teacherlist_model extends CI_Model{
+
+  	public function __construct(){
+  		parent::__construct();
+
+    }
+
+    public function get_teacher_details(){
+      $this->db->select('teachers.id,teachers.first_name as name,teachers.total_experience,CONCAT("https://taktii.live/kZD0rgbzHk/api/profile_image/",teachers.profile_img) as profile_img,teachers.per_address,teacher_professional_details.class_name,(select GROUP_CONCAT(subject_name) from teacher_professional_details as a where a.teacher_id=teachers.id ) as subject_name');
+       $this->db->join('teachers', 'teachers.id = teacher_professional_details.teacher_id','right');
+       $this->db->where('teachers.status', '1');
+       $this->db->group_by('teacher_professional_details.teacher_id');
+      $query = $this->db->get('teacher_professional_details');
+      $result = $query->result_array();
+      return $result;   
+    }
+   
+  }

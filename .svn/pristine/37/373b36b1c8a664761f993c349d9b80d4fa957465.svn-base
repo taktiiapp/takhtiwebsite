@@ -1,0 +1,31 @@
+ <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+	class Teacherabout_model extends CI_Model{
+
+  	public function __construct(){
+  		parent::__construct();
+
+    }
+
+     public function base64url_encode($data) { 
+
+          return rtrim(strtr(base64_encode($data), '+/', '-_'), '='); 
+
+        }
+
+ 
+
+      public function get_teacher_about(){
+        $this->db->select('id,first_name as name,mobile,gender,user_role,is_online,status,added_date,address,per_address');
+       // $this->db->where('id', $id);
+        $query = $this->db->get('teachers');
+        $result=$query->row();
+       // $result = $query->result_array();
+        //print_r($result);die;
+        return $result;
+
+        }
+
+}
+
+       
