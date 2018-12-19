@@ -1,0 +1,15 @@
+@charset "utf-8";
+/* CSS Document */
+
+h1 small, .dark h1 small{color:#f9b24f;}
+.btn-primary, .btn-primary:hover{background-color:#e61875; border-color:#e61875;}
+.btn-default, .btn-default:hover{background-color:#e61875; border-color:#e61875;}
+.btn:focus{background-color:#242526; border-color:#242526;}
+.btn-link, .btn-link:hover, .btn-link:focus{background-color:transparent; border-color:transparent; box-shadow:none;}
+.banner .btn-link, .banner .btn-link:hover, .banner .btn-link:focus, .banner, .banner h1, .trial-download, .trial-download h2, .member-desig, .team-member .social i, .team-member .social i:hover, .team-member .social i:focus, .btn, .btn:hover, .btn:focus, .subscribe-form, .subscribe-form h2, .subscribe-form h2 small, .contact-form, .contact-form h2, .contact-form h2 > small, .dark .contact-form h2 > small{color:#fff;}
+.feature.style1 i, .feature.style2 i, .trial-download, .plan.pro .plan-header, .plan.pro .plan-footer, .subscribe-form, .form-switch button.active, .contact-form, .og-details a:hover, .og-details a:focus{background:#5292ff;}
+.team-member, .feature.style1:hover i, .feature.style2:hover i, .plan.premium .plan-header, .plan.premium .plan-footer, .social li a i:hover, .backtotop:hover, .wagwep-container ul#portfolio-filter li.current a{background-color:#e61875;}
+.list li i{color:#e61875;}
+.overlay-color:after{background:rgba(0, 188, 212, 0.5);}
+.bg-color {background:#00bcd4;}
+.panel-group .panel-heading:hover, .panel-group .panel-heading.active{border-color:#e61875; background-color:#e61875;}
